@@ -108,7 +108,7 @@ end
                   FrankWolfe.blended_pairwise_conditional_gradient,
                   FrankWolfe.frank_wolfe,
                   FrankWolfe.away_frank_wolfe,
-                  FrankWolfe.lazified_conditional_gradient, # FrankWolfe.VectorCacheLMO
+                  # FrankWolfe.lazified_conditional_gradient, # FrankWolfe.VectorCacheLMO ruins the game
                  ]
     for T in [Float64, Double64]
         CT = Complex{T}
