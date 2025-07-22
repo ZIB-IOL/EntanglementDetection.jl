@@ -117,7 +117,7 @@ function build_callback(trajectory_arr, epsilon, max_active, shortcut, shortcut_
             return false
         end
 
-        if noise_mixture 
+        if noise_mixture
             if rp[] > 1 # stop if the noise is fully added
                 verbose > 0 && @info "noise is fully added"
                 return false
@@ -152,10 +152,10 @@ function build_callback(trajectory_arr, epsilon, max_active, shortcut, shortcut_
         end
 
         if state.primal < epsilon # stop if the primal is small enough (main stopping criterion)
-            verbose > 0 &&  @info "primal is small enough"
+            verbose > 0 && @info "primal is small enough"
             return false
         end
-        
+
         return true # control when to stop
     end
     return callback
