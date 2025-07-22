@@ -19,7 +19,7 @@ EntanglementDetectionTullio = "Tullio"
 
 [compat]
 FrankWolfe = "0.4.3"
-Ket = "0.5"
+Ket = "0.5, 0.6"
 Printf = "1.11.0"
 Random = "1.11.0"
 Roots = "2.2.6"
