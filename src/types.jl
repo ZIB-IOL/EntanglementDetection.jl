@@ -25,7 +25,7 @@ function Workspace{T, N}(dims::NTuple{N, Int}) where {T <: Real, N}
     return Workspace{T, N}(pure_kets, pure_tensors, reduced_setdiffs, reduced_tensors, reduced_matrices, blas_workspaces)
 end
 
-struct Fwdata 
+struct Fwdata
     fw_iter::Vector{Int}
     fw_time::Vector{Float64}
     lmo_counts::Vector{Int}

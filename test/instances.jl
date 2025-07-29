@@ -5,7 +5,7 @@
             fw_algorithm = FrankWolfe.blended_pairwise_conditional_gradient,
             epsilon = 1e-6,
             lazy = true,
-            lazy_tolerance = 2.0,
+            sparsity_control = 2.0,
             max_iteration = 10^5,
             verbose = false)
         @test res.ent
@@ -22,7 +22,7 @@ end
             fw_algorithm = FrankWolfe.blended_pairwise_conditional_gradient,
             epsilon = 1e-6,
             lazy = true,
-            lazy_tolerance = 2.0,
+            sparsity_control = 2.0,
             max_iteration = 10^4,
             verbose = 0)
         @test res.ent
