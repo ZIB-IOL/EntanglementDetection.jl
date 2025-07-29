@@ -7,11 +7,11 @@ This package addresses the **entanglement** and **separability** certification f
 
 The original article for which it was written can be found here:
 
-> [A Unified Toolbox for Multipartite Entanglement Certification](https://arxiv.org/abs/2507.17435).
+> [1] [A Unified Toolbox for Multipartite Entanglement Certification](https://arxiv.org/abs/2507.17435).
 
 The method for separability certification as the part of the package was first introduced in
 
-> [Convex optimization over classes of multiparticle entanglement](https://arxiv.org/abs/1707.02958).
+> [2] [Convex optimization over classes of multiparticle entanglement](https://arxiv.org/abs/1707.02958).
 
 ## Installation
 
@@ -68,10 +68,11 @@ Iteration        Primal    Dual gap     #Atoms
 [ Info: Stop: maximum iteration reached
 ```
 
-For the state ``ρ``, as the distance to the separable space `res.primal` is greatly large than 0, practically, we can detect the entanglement of the state with confidence (technically speaking, ``Primal`` $\gg$ ``Dual gap``.)
+For the state ``ρ``, as the distance to the separable space `res.primal` is much larger than 0, practically, we can detect the entanglement of the state with confidence (technically speaking, ``Primal`` $\gg$ ``Dual gap``.)
 
 ## Entanglement certification
-In principle, if ``Primal`` $\geq$ ``Dual gap``, the state is outside the separable space, therefore is entangled. However, due to the heuristic method, the ``Dual gap`` is inaccuracy. In practice, we can detect the entanglement by check enlarging the factor, e.g., ``Primal`` $\geq 5 \times$ ``Dual gap``. 
+
+In principle, if ``Primal`` $\geq$ ``Dual gap``, the state is outside the separable space, therefore is entangled. However, due to the heuristic method, the ``Dual gap`` is inaccuracy. In practice, we can detect the entanglement by check enlarging the factor, e.g., ``Primal`` $\geq 5 \times$ ``Dual gap``.
 
 A rigorous tool is also introduce in our package:
 
@@ -83,6 +84,7 @@ true
 ```
 
 ## Separability certification
+
 Let's consider the other case that there is more noise mixed in the state.
 
 ```julia
@@ -100,7 +102,7 @@ julia> res = separable_distance(ρ, dims); # achieve the distance to the separab
 [ Info: Stop: primal small enough
 ```
 
-For this case, ``Primal`` is great smaller than ``Dual gap``, which can not be detected as an entangled state, which can also can not be confirmed by entanglement witness:
+For this case, ``Primal`` is much smaller than ``Dual gap``, which can not be detected as an entangled state, and also can not be confirmed by entanglement witness:
 
 ```julia
 julia> witness = entanglement_witness(ρ, res.σ, dims); # construct a rigorous entanglement witness
@@ -118,11 +120,10 @@ julia> sep.sep
 true
 ```
 
-
 ## Under the hood
 
 The computation is based on an efficient variant of the Frank-Wolfe algorithm to iteratively find the separable state closest to the input quantum state based on correlation tensor.
-See this recent [review](https://arxiv.org/abs/2211.14103) for an introduction to the method and the package [FrankWolfe.jl](https://github.com/ZIB-IOL/FrankWolfe.jl) for the implementation on which this package relies. 
+See this recent [review](https://arxiv.org/abs/2211.14103) for an introduction to the method and the package [FrankWolfe.jl](https://github.com/ZIB-IOL/FrankWolfe.jl) for the implementation on which this package relies.
 
 ## Going further
 
