@@ -1,5 +1,5 @@
 """
-    separable_distance(ρ::AbstractMatrix{CT}; dims, measure, fw_algorithm, kwargs...)
+    separable_distance(ρ::AbstractMatrix{CT}, dims::NTuple{N, Int}, lmo::LMO=AlternatingSeparableLMO(float(real(CT)), dims); measure, fw_algorithm, kwargs...)
     separable_distance(C::Array{T, N}; matrix_basis, measure, fw_algorithm, kwargs...)
 
 Computes the distance between the quantum density matrix `ρ` and the separable space under a specific `measure` via a specific `fw_algorithm`:
@@ -60,9 +60,9 @@ function separable_distance(
     epsilon = 1e-6,
     lazy = true,
     max_iteration = 10^5,
-    verbose = 0,
+    verbose = 1,
     logfile = nothing,
-    callback_iter = 10^3,
+    callback_iter = 10^4,
     shortcut = false, # primal > 10 dual_gap stopping criterion
     shortcut_scale = 10,
     kwargs...
@@ -188,6 +188,19 @@ function separable_distance(
             lpad(length(active_set), 7),
             lpad(lmo.fwdata.lmo_counts[1], 7)
             )
+    end
+    if verbose > 0
+        if length(active_set) > max_active
+            @info "Stop: active set too large"
+        elseif noise_mixture && rp[] > 1
+            @info "Stop: noise fully added"
+        elseif !noise_mixture && shortcut && primal / dual_gap > shortcut_scale
+            @info "Stop: primal great larger than dual gap (shortcut)"
+        elseif primal < epsilon
+            @info "Stop: primal small enough"
+        else
+            @info "Stop: maximum iteration reached"
+        end
     end
     flush(logfile)
     return (x = x, v = v, primal = primal, noise_level = rp[], active_set = active_set, lmo = lmo, traj_data = traj_data)

@@ -8,15 +8,15 @@ function separability_certification(C::Array{T, N},
     noise[1] = T(1)
     r_list = T[]
     ϵ_list = T[]
-    @show r_th = separable_ball_radius(T, lmo)
+    r_th = separable_ball_radius(T, lmo)
     res = (active_set = active_set, primal = zero(T))
     for _ in 1:certify_test
         C_rec = (1+ϵ) * C - ϵ * noise
         res = separable_distance(C_rec, lmo; active_set = res.active_set, kwargs...)
         δ = sqrt(res.primal)
-        @show r = δ / ϵ
+        r = δ / ϵ
         if r < r_th
-            println(r, " < ", r_th)
+            # println(r, " < ", r_th)
             return (sep = true, res = res)
         else
             ϵ = (ϵ + ϵ_1) / 2
