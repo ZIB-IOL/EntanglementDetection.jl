@@ -1,7 +1,7 @@
 # EntanglementDetection.jl
 
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://zib-iol.github.io/EntanglementDetection.jl/dev/)
-[![Build Status](https://github.com/zib-iol/EntanglementDetection.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/zib-iol/EntanglementDetection.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Build Status](https://github.com/zib-iol/EntanglementDetection.jl/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/zib-iol/EntanglementDetection.jl/actions/workflows/ci.yml?query=branch%3Amain)
 
 This package addresses the certification of **entanglement** and **separability** for multipartite quantum systems with arbitrary local dimensions.
 
