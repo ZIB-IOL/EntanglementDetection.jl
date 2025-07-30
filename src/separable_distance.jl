@@ -37,9 +37,7 @@ function separable_distance(ρ::AbstractMatrix{CT}, dims::NTuple{N, Int}, lmo::L
 end
 export separable_distance
 
-function separable_distance(C::Array{T, N}, matrix_basis::NTuple{N, Vector{<:AbstractMatrix{Complex{T}}}}, lmo::LMO=AlternatingSeparableLMO(T, dims); measure::String = "2-norm", fw_algorithm::Function = FrankWolfe.blended_pairwise_conditional_gradient, kwargs...) where {T <: Real, N, LMO <: SeparableLMO{T, N}}
-    @assert length(bases) == N
-    lmo = AlternatingSeparableLMO(T, size(C); matrix_basis, kwargs...)
+function separable_distance(C::Array{T, N}, matrix_basis::NTuple{N, Vector{<:AbstractMatrix{Complex{T}}}}, lmo::LMO=AlternatingSeparableLMO(T, isqrt.(size(C))); measure::String = "2-norm", fw_algorithm::Function = FrankWolfe.blended_pairwise_conditional_gradient, kwargs...) where {T <: Real, N, LMO <: SeparableLMO{T, N}}
     return separable_distance(C, lmo; measure, fw_algorithm, kwargs...)
 end
 
@@ -198,8 +196,10 @@ function separable_distance(
             @info "Stop: primal great larger than dual gap (shortcut)"
         elseif primal < epsilon
             @info "Stop: primal small enough"
-        else
+        elseif lmo.fwdata.fw_iter[1] >= max_iteration
             @info "Stop: maximum iteration reached"
+        else
+            @info "Stop: unknown reason"
         end
     end
     flush(logfile)
