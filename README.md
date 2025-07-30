@@ -129,7 +129,7 @@ julia> res = separable_distance(ρ, dims); # compute the distance to the separab
 [ Info: Stop: primal small enough
 ```
 
-In this case, ``Primal`` is much smaller than ``Dual gap``, which can not be detected as an entangled state, and also cannot be confirmed by entanglement witness:
+In this case, ``Primal`` is much smaller than ``Dual gap``, which cannot be detected as an entangled state, and also cannot be confirmed by entanglement witness:
 
 ```julia
 julia> witness = entanglement_witness(ρ, res.σ, dims); # construct a rigorous entanglement witness

@@ -1,6 +1,6 @@
 name = "EntanglementDetection"
 uuid = "5e5e84d8-5f53-4fe3-9037-c06c4de5d74e"
-authors = ["Y.C. Liu <yechaoliu1994@outlook.com>"]
+authors = ["Y.C. Liu <yechaoliu1994@outlook.com> and contributors"]
 version = "0.1.0"
 
 [deps]
@@ -18,8 +18,8 @@ Tullio = "bc48ee85-29a4-5162-ae0b-a64e1601d4bc"
 EntanglementDetectionTullio = "Tullio"
 
 [compat]
-FrankWolfe = "0.4.1 - 0.5"
-Ket = "0.5.1 - 0.6"
+FrankWolfe = "0.4.1, 0.5"
+Ket = "0.5.1, 0.6"
 Printf = "1.11.0"
 Random = "1.11.0"
 Roots = "2.2"
