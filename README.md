@@ -3,9 +3,9 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://zib-iol.github.io/EntanglementDetection.jl/dev/)
 [![CI](https://github.com/ZIB-IOL/EntanglementDetection.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/ZIB-IOL/EntanglementDetection.jl/actions/workflows/ci.yml)
 
-This package addresses the certification of **entanglement** and **separability** for multipartite quantum systems with arbitrary local dimensions.
+This package provides tools for certifying **entanglement** and **separability** in multipartite quantum systems with arbitrary local dimensions.
 
-The original article for which it was written can be found here:
+The original article introducing this package can be found here:
 
 > [1] [A Unified Toolbox for Multipartite Entanglement Certification](https://arxiv.org/abs/2507.17435).
 
@@ -30,7 +30,7 @@ Pkg.add(url="https://github.com/ZIB-IOL/EntanglementDetection.jl", rev="main")
 
 ## Getting started
 
-Let's say we want to analyze the entanglement property of the two-qubit maximally entangled state with white noise.
+We demonstrate how to analyze the entanglement property of the two-qubit maximally entangled state with white noise.
 Using `EntanglementDetection.jl`, here is what the code looks like.
 
 ```julia
@@ -68,13 +68,40 @@ julia> res = separable_distance(ρ, dims); # compute the distance to the separab
 [ Info: Stop: maximum iteration reached
 ```
 
-For the state ``ρ``, as the distance to the separable set `res.primal` is much larger than 0, practically, we can detect the entanglement of the state with confidence (technically speaking, ``Primal`` $\gg$ ``Dual gap``).
+For the state ``ρ``, as the distance to the separable set `res.primal` is significantly greater than 0, practically, we can detect the entanglement of the state with confidence (technically speaking, ``Primal`` $\gg$ ``Dual gap``).
 
-## Entanglement certification
+### Rapid entanglement detection
 
-In principle, if ``Primal`` $>$ ``Dual gap``, the state is outside the separable set, therefore is entangled. However, since the default method in our algorithm is heuristic, the printed value of ``Dual gap`` is a lower bound on its actual value. For practical applications, it is empirically enough (although not theoretically proven) to enlarge the factor, e.g., ``Primal`` $\geqslant 5 \times$ ``Dual gap``.
+In principle, if ``Primal`` > ``Dual gap``, the state lies outside the separable set and is therefore entangled. However, since the default method in our algorithm is heuristic, the reported ``Dual gap`` is only a lower bound on the true value.
+Empirically, requiring ``Primal`` ≥ 5 × ``Dual gap`` is often sufficient for robust detection, especially in noisy but clearly experimental entangled states.
 
-For cases where this is not sufficient, a rigorous tool is also introduced in our package:
+To support this, we provide a shortcut mode that speeds up the detection process.
+The package also accepts raw experimental input in the form of a correlation tensor from standard full state tomography.
+
+```julia
+# the tensor of the density matrix; can be replaced by real experimental data
+julia> C = correlation_tensor(ρ, dims) 
+4×4 Matrix{Float64}:
+ 1.0  0.0   0.0  0.0
+ 0.0  0.2   0.0  0.0
+ 0.0  0.0  -0.2  0.0
+ 0.0  0.0   0.0  0.2
+
+# the default basis is the generalized Gell-Mann basis (Pauli basis for qubits)
+# any informationally complete basis with normalization 2 can be used
+julia> basis = EntanglementDetection._gellmann(ComplexF64, dims); 
+
+julia> res = separable_distance(C, basis; shortcut=true);
+   Iteration        Primal      Dual gap     #Atoms
+           1    1.6600e+00    4.0000e+00          1
+        Last    3.2672e-01    1.1695e-02          6
+[ Info: Stop: primal great larger than dual gap (shortcut)
+```
+The shortcut mode stops early once entanglement can be reliably confirmed.
+
+### Rigorous entanglement certification
+
+When heuristic detection is not sufficient, a rigorous certificate can be constructed via an entanglement witness:
 
 ```julia
 julia> witness = entanglement_witness(ρ, res.σ, dims); # construct a rigorous entanglement witness
@@ -83,9 +110,9 @@ julia> real(dot(witness.W, ρ)) < 0 # if Tr(Wρ) < 0, then the state ρ is entan
 true
 ```
 
-## Separability certification
+### Separability certification
 
-Let us consider the other case, namely, when there is more noise mixed in the state.
+Now consider a noisier version of the same state:
 
 ```julia
 julia> d = 2; N = 2; p = 0.8; ρ = Ket.state_ghz(d, N; v = 1 - p) # with more white noise
@@ -102,7 +129,7 @@ julia> res = separable_distance(ρ, dims); # compute the distance to the separab
 [ Info: Stop: primal small enough
 ```
 
-Here, ``Primal`` is much smaller than ``Dual gap``, which can not be detected as an entangled state, and also cannot be confirmed by entanglement witness:
+In this case, ``Primal`` is much smaller than ``Dual gap``, which can not be detected as an entangled state, and also cannot be confirmed by entanglement witness:
 
 ```julia
 julia> witness = entanglement_witness(ρ, res.σ, dims); # construct a rigorous entanglement witness
@@ -119,6 +146,7 @@ julia> sep = separability_certification(ρ, dims; verbose = 0); # certify separa
 julia> sep.sep
 true
 ```
+This confirms that the state lies inside the separable set, completing the analysis.
 
 ## Under the hood
 
