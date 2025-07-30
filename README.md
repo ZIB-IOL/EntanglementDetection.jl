@@ -52,19 +52,19 @@ julia> ρ = Ket.state_ghz(d, N; v = 1 - p) # two-qubit maximally entangled state
 julia> dims = Tuple(fill(d, N)); # the entanglement structure 2 × 2
 
 julia> res = separable_distance(ρ, dims); # compute the distance to the separable set
-Iteration        Primal      Dual gap     #Atoms
-        1    1.6600e+00    4.0000e+00         1
-    10000    3.2667e-01    6.1346e-08         10
-    20000    3.2667e-01    6.1346e-08         10
-    30000    3.2667e-01    6.1346e-08         10
-    40000    3.2667e-01    6.1346e-08         10
-    50000    3.2667e-01    6.1346e-08         10
-    60000    3.2667e-01    6.1346e-08         10
-    70000    3.2667e-01    6.1346e-08         10
-    80000    3.2667e-01    6.1346e-08         10
-    90000    3.2667e-01    6.1346e-08         10
-   100000    3.2667e-01    6.1346e-08         10
-     Last    3.2667e-01    9.3576e-08         10
+   Iteration        Primal      Dual gap     #Atoms
+           1    1.6600e+00    4.0000e+00          1
+       10000    3.2667e-01    6.1346e-08         10
+       20000    3.2667e-01    6.1346e-08         10
+       30000    3.2667e-01    6.1346e-08         10
+       40000    3.2667e-01    6.1346e-08         10
+       50000    3.2667e-01    6.1346e-08         10
+       60000    3.2667e-01    6.1346e-08         10
+       70000    3.2667e-01    6.1346e-08         10
+       80000    3.2667e-01    6.1346e-08         10
+       90000    3.2667e-01    6.1346e-08         10
+      100000    3.2667e-01    6.1346e-08         10
+        Last    3.2667e-01    9.3576e-08         10
 [ Info: Stop: maximum iteration reached
 ```
 

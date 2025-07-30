@@ -9,7 +9,7 @@ function build_callback(trajectory_arr, epsilon, max_active, shortcut, shortcut_
             "%s  %s  %s    %s\n",
             lpad("Iteration", 12),
             lpad("Primal", 12),
-            lpad("Dual gap", 10),
+            lpad("Dual gap", 12),
             lpad("#Atoms", 7),
             )
     elseif verbose == 1 && noise_mixture
@@ -18,7 +18,7 @@ function build_callback(trajectory_arr, epsilon, max_active, shortcut, shortcut_
             "%s  %s  %s    %s    %s\n",
             lpad("Iteration", 12),
             lpad("Primal", 12),
-            lpad("Dual gap", 10),
+            lpad("Dual gap", 12),
             lpad("Noise", 10),
             lpad("#Atoms", 7),
             )
@@ -28,7 +28,7 @@ function build_callback(trajectory_arr, epsilon, max_active, shortcut, shortcut_
             "%s  %s  %s    %s   %s    %s    %s\n",
             lpad("Iteration", 12),
             lpad("Primal", 12),
-            lpad("Dual gap", 10),
+            lpad("Dual gap", 12),
             lpad("Time (sec)", 10),
             lpad("#It/sec", 10),
             lpad("#Atoms", 7),
@@ -41,7 +41,7 @@ function build_callback(trajectory_arr, epsilon, max_active, shortcut, shortcut_
             lpad("Iteration", 12),
             lpad("Primal", 12),
             lpad("Primal_prev", 12),
-            lpad("Dual gap", 10),
+            lpad("Dual gap", 12),
             lpad("Noise", 10),
             lpad("Time (sec)", 10),
             lpad("#It/sec", 10),
@@ -113,13 +113,11 @@ function build_callback(trajectory_arr, epsilon, max_active, shortcut, shortcut_
         noise_print_update = false
 
         if length(active_set) > max_active
-            # verbose > 0 && @info "active set is too large"
             return false
         end
 
         if noise_mixture
             if rp[] > 1 # stop if the noise is fully added
-                # verbose > 0 && @info "noise is fully added"
                 return false
             end
             noise_update_count += 1
@@ -147,12 +145,10 @@ function build_callback(trajectory_arr, epsilon, max_active, shortcut, shortcut_
         end
 
         if !noise_mixture && shortcut && state.primal / state.dual_gap > shortcut_scale # when gap is large enough -> entangled, stop. (remove if we not use it)
-            # verbose > 0 && @info "shortcut"
             return false
         end
 
         if state.primal < epsilon # stop if the primal is small enough (main stopping criterion)
-            # verbose > 0 && @info "primal is small enough"
             return false
         end
 
