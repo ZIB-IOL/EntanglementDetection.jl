@@ -18,12 +18,17 @@ Tullio = "bc48ee85-29a4-5162-ae0b-a64e1601d4bc"
 EntanglementDetectionTullio = "Tullio"
 
 [compat]
-FrankWolfe = "0.4.1, 0.5"
-Ket = "0.5.1, 0.6"
-Printf = "1.11.0"
-Random = "1.11.0"
+DoubleFloats = "1.4.0"
+FrankWolfe = "0.4.1 - 0.5"
+Ket = "0.5.1 - 0.6"
+LinearAlgebra = "1"
+Printf = "1"
+Quadmath = "0.5.13"
+Random = "1"
 Roots = "2.2"
+Test = "1"
 Tullio = "0.3.8"
+julia = "1.9"
 
 [extras]
 DoubleFloats = "497a8b3b-efae-58df-a0af-a86822472b78"
