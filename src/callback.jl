@@ -3,7 +3,7 @@ function build_callback(trajectory_arr, epsilon, max_active, shortcut, shortcut_
     noise_print_update = true
     noise_print_count = 0
     noise_update_count = 0
-    if verbose == 1 && noise_mixture == false
+    if verbose == 1 && !noise_mixture
         Printf.@printf(
             stdout,
             "%s  %s  %s    %s\n",
@@ -22,10 +22,10 @@ function build_callback(trajectory_arr, epsilon, max_active, shortcut, shortcut_
             lpad("Noise", 10),
             lpad("#Atoms", 7),
             )
-    elseif verbose == 2 && noise_mixture == false
+    elseif verbose == 2 && !noise_mixture
         Printf.@printf(
             stdout,
-            "%s  %s  %s    %s   %s    %s    %s\n",
+            "%s  %s  %s    %s    %s   %s    %s\n",
             lpad("Iteration", 12),
             lpad("Primal", 12),
             lpad("Dual gap", 12),
@@ -62,7 +62,7 @@ function build_callback(trajectory_arr, epsilon, max_active, shortcut, shortcut_
         state.lmo.fwdata.fw_time[1] = state.time
 
         if (mod(state.t, callback_iter) == 0 || noise_print_update)
-            if verbose == 1 && noise_mixture == false
+            if verbose == 1 && !noise_mixture
                 Printf.@printf(
                     stdout,
                     "%s    %.4e    %.4e    %s\n",
@@ -81,7 +81,7 @@ function build_callback(trajectory_arr, epsilon, max_active, shortcut, shortcut_
                     rp[],
                     lpad(length(active_set), 7)
                     )
-            elseif verbose == 2 && noise_mixture == false
+            elseif verbose == 2 && !noise_mixture
                 Printf.@printf(
                     stdout,
                     "%s    %.4e    %.4e    %.4e    %s   %s    %s\n",

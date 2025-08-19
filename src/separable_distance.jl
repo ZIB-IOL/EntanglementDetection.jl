@@ -65,7 +65,7 @@ function separable_distance(
     shortcut_scale = 10,
     kwargs...
 ) where {T <: Real, N}
-    if verbose >0 
+    if verbose > 0
         if typeof(lmo) <: KSeparableLMO{T}
             lmo.lmos[1].parallelism && @info "The number of threads is $(Threads.nthreads())"
         else
@@ -80,7 +80,7 @@ function separable_distance(
     end
     # left for consistency between runs
     Random.seed!(0)
-    
+
     if isnothing(noise)
         noise = similar(C)
         noise .= T(0)
@@ -141,7 +141,7 @@ function separable_distance(
     end
 
     # print last iteration
-    if verbose == 1 && noise_mixture == false
+    if verbose == 1 && !noise_mixture
         Printf.@printf(
             stdout,
             "%s    %.4e    %.4e    %s\n",
@@ -160,7 +160,7 @@ function separable_distance(
             rp[],
             lpad(length(active_set), 7)
             )
-    elseif verbose == 2 && noise_mixture == false
+    elseif verbose == 2 && !noise_mixture
         Printf.@printf(
             stdout,
             "%s    %.4e    %.4e    %.4e    %s   %s    %s\n",
