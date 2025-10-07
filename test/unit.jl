@@ -41,7 +41,7 @@ end
         dims = (2, 2, 2)
         N = length(dims)
         kets = Ket.random_state_ket.(CT, dims)
-        ρ = kron(kets...)*kron(kets...)'
+        ρ = kron(kets...) * kron(kets...)'
         lmo = EntanglementDetection.AlternatingSeparableLMO(T, dims)
         tensor = EntanglementDetection.correlation_tensor(ρ, dims)
         tensors = ntuple(n -> Vector{T}(undef, dims[n]^2), Val(N))

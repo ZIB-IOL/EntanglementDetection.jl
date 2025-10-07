@@ -1,7 +1,7 @@
 # Ket does not normalise gellmann the same way we do, the first element of tensor should be treated differently
 function _gellmann(::Type{CT}, dims::NTuple{N, Int}) where {CT <: Number, N}
     T = float(real(CT))
-    matrix_basis = Ket.gellmann.(Complex{T}, dims)
+    matrix_basis = broadcast.(Matrix{Complex{T}}, Ket.gellmann.(Complex{T}, dims))
     for n in 1:N
         matrix_basis[n][1] .*= sqrt(T(2)) / sqrt(T(dims[n]))
     end
@@ -79,7 +79,7 @@ function correlation_tensor(ρ::AbstractMatrix{CT}, dims::NTuple{N, Int}, matrix
 end
 export correlation_tensor
 
-function _correlation_tensor!(tensor::Array{T, N}, ρ::AbstractMatrix{CT}, matrix_basis::NTuple{N, Vector{MB}}) where {T <: Real, CT <: Number, MB <: Matrix{Complex{T}}, N}
+function _correlation_tensor!(tensor::Array{T, N}, ρ::AbstractMatrix{CT}, matrix_basis::NTuple{N, Vector{MB}}) where {T <: Real, CT <: Number, MB <: AbstractMatrix{Complex{T}}, N}
     dims2 = collect(length.(matrix_basis))
     vi = ones(Int, N)
     for i in 0:prod(dims2)-1
