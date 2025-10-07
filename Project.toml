@@ -19,7 +19,7 @@ EntanglementDetectionTullio = "Tullio"
 
 [compat]
 DoubleFloats = "1.4.0"
-FrankWolfe = "0.4.1 - 0.5"
+FrankWolfe = "0.4.1 - 0.5, 0.6"
 Ket = "0.5.1 - 0.6"
 LinearAlgebra = "1"
 Printf = "1"
