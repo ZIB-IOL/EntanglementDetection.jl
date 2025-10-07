@@ -256,10 +256,6 @@ function LA.dot(ps::PureState{T, 2}, A::Array{T, 2}) where {T <: Real}
     return LA.dot(ps.tensors[1], ps.lmo.tmp)
 end
 
-function LA.dot(ps::PureState{T, N}, A::Array{T, N}) where {T <: Real} where {N}
-    return LA.dot(ps, A)
-end
-
 function LA.dot(ps1::PureState{T, 2}, ps2::PureState{T, 2}) where {T <: Real}
     return LA.dot(ps1.tensors[1], ps2.tensors[1]) * LA.dot(ps1.tensors[2], ps2.tensors[2])
 end
