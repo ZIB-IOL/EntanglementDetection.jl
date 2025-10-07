@@ -249,21 +249,21 @@ Base.@propagate_inbounds function Base.getindex(ps::PureState{T, N}, x::Vararg{I
     return @inbounds prod(getindex(ps.tensors[n], x[n]) for n in 1:N)
 end
 
-FrankWolfe.fast_dot(A::Array, ps::PureState) = conj(FrankWolfe.fast_dot(ps, A))
+LA.dot(A::Array, ps::PureState) = conj(LA.dot(ps, A))
 
-function FrankWolfe.fast_dot(ps::PureState{T, 2}, A::Array{T, 2}) where {T <: Real}
+function LA.dot(ps::PureState{T, 2}, A::Array{T, 2}) where {T <: Real}
     LA.mul!(ps.lmo.tmp, A, ps.tensors[2])
     return LA.dot(ps.tensors[1], ps.lmo.tmp)
 end
 
-function FrankWolfe.fast_dot(ps::PureState{T, N}, A::Array{T, N}) where {T <: Real} where {N}
+function LA.dot(ps::PureState{T, N}, A::Array{T, N}) where {T <: Real} where {N}
     return LA.dot(ps, A)
 end
 
-function FrankWolfe.fast_dot(ps1::PureState{T, 2}, ps2::PureState{T, 2}) where {T <: Real}
+function LA.dot(ps1::PureState{T, 2}, ps2::PureState{T, 2}) where {T <: Real}
     return LA.dot(ps1.tensors[1], ps2.tensors[1]) * LA.dot(ps1.tensors[2], ps2.tensors[2])
 end
 
-function FrankWolfe.fast_dot(ps1::PureState{T, N}, ps2::PureState{T, N}) where {T <: Real, N}
+function LA.dot(ps1::PureState{T, N}, ps2::PureState{T, N}) where {T <: Real, N}
     return prod(LA.dot(ps1.tensors[n], ps2.tensors[n]) for n in 1:N)
 end
