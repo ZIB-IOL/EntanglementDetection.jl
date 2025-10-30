@@ -83,7 +83,7 @@ function _syevr!(A::AbstractMatrix{ComplexF64}, ws::BlasWorkspace{Float64})
 end
 
 """
-    _eigmin!(ket::Vector, matrix::Matrix)
+    _eigmin!(ket::Vector, matrix::Matrix, ws::BlasWorkspace)
 
 Computes the minimal real eigenvalue and updates `ket` in place
 The variable `matrix` of size d × d also gets overwritten.
