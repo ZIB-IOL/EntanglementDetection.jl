@@ -7,7 +7,7 @@ function threaded_foreach(f, ntasks::Int)
     end
 end
 
-function AlternatingCore(work::Workspace{T, N}, lmo::AlternatingSeparableLMO{T, N}, dir::AbstractArray{T, N}) where {T <: Real, N}
+function alternating_core(work::Workspace{T, N}, lmo::AlternatingSeparableLMO{T, N}, dir::AbstractArray{T, N}) where {T <: Real, N}
     for n in 1:N
         Random.randn!(work.pure_kets[n])
         LA.normalize!(work.pure_kets[n])
@@ -44,7 +44,7 @@ function FrankWolfe.compute_extreme_point(lmo::AlternatingSeparableLMO{T, N}, di
         tensors = [ntuple(n -> Vector{T}(undef, lmo.dims[n]^2), Val(N)) for _ in 1:lmo.nb]
         objs = [typemax(T) for _ in 1:lmo.nb]
         threaded_foreach(lmo.nb) do tid, task
-            tensors[task], objs[task] = AlternatingCore(lmo.workspaces[tid], lmo, dir)
+            tensors[task], objs[task] = alternating_core(lmo.workspaces[tid], lmo, dir)
         end
         idx = argmin(objs) # find the best pure state
         return PureState{T, N, typeof(lmo)}(tensors[idx], objs[idx], lmo)
@@ -52,7 +52,7 @@ function FrankWolfe.compute_extreme_point(lmo::AlternatingSeparableLMO{T, N}, di
         best_obj = typemax(T)
         best_pure_tensors = ntuple(n -> Vector{T}(undef, lmo.dims[n]^2), Val(N))
         for _ in 1:lmo.nb
-            tensor, obj = AlternatingCore(lmo.workspaces[1], lmo, dir)
+            tensor, obj = alternating_core(lmo.workspaces[1], lmo, dir)
             if obj < best_obj
                 best_obj = obj
                 for n in 1:N
