@@ -111,7 +111,7 @@ function separable_distance(
     callback = build_callback(trajectory_arr, epsilon, max_active, shortcut, shortcut_scale, noise_mixture, rp, noise_atol, noise_update_count, C, noise, verbose, logfile, callback_iter)
 
     if fw_algorithm in [FrankWolfe.frank_wolfe, FrankWolfe.lazified_conditional_gradient]
-        x, v, primal, dual_gap, traj_data = fw_algorithm(
+        res = fw_algorithm(
             f,
             grad!,
             lmo,
@@ -123,9 +123,14 @@ function separable_distance(
             verbose = false,
             kwargs...
         )
+        x = res.x
+        v = res.v
+        primal = res.primal
+        dual_gap = res.dual_gap
+        traj_data = res.traj_data
         active_set = FrankWolfe.ActiveSetQuadraticProductCaching([(one(T), x)], LA.I, -C)
     else
-        x, v, primal, dual_gap, traj_data, active_set = fw_algorithm(
+        res = fw_algorithm(
             f,
             grad!,
             lmo,
@@ -138,6 +143,12 @@ function separable_distance(
             lazy,
             kwargs...
         )
+        x = res.x
+        v = res.v
+        primal = res.primal
+        dual_gap = res.dual_gap
+        traj_data = res.traj_data
+        active_set = res.active_set
     end
 
     # print last iteration

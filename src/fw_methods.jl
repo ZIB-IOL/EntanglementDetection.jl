@@ -40,7 +40,7 @@ end
 
 function FrankWolfe.compute_extreme_point(lmo::AlternatingSeparableLMO{T, N}, dir::AbstractArray{T, N}; kwargs...) where {T <: Real, N}
     lmo.fwdata.lmo_counts[1] += 1
-    if lmo.parallelism 
+    if lmo.parallelism
         tensors = [ntuple(n -> Vector{T}(undef, lmo.dims[n]^2), Val(N)) for _ in 1:lmo.nb]
         objs = [typemax(T) for _ in 1:lmo.nb]
         threaded_foreach(lmo.nb) do tid, task
