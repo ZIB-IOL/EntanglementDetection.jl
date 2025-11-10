@@ -1,10 +1,7 @@
 # Ket does not normalise gellmann the same way we do, the first element of tensor should be treated differently
-function _gellmann(::Type{CT}, dims::NTuple{N, Int}) where {CT <: Number, N}
+function _gellmann(::Type{CT}, dims::NTuple{N, Int}; coeff = 1) where {CT <: Number, N}
     T = float(real(CT))
-    matrix_basis = broadcast.(Matrix{Complex{T}}, Ket.gellmann.(Complex{T}, dims))
-    for n in 1:N
-        matrix_basis[n][1] .*= sqrt(T(2)) / sqrt(T(dims[n]))
-    end
+    matrix_basis = broadcast.(Matrix{Complex{T}}, Ket.gellmann.(Complex{T}, dims; coeff))
     return matrix_basis
 end
 

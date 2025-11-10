@@ -1,7 +1,7 @@
 name = "EntanglementDetection"
 uuid = "5e5e84d8-5f53-4fe3-9037-c06c4de5d74e"
 authors = ["Y.C. Liu <yechaoliu1994@outlook.com> and contributors"]
-version = "0.2.0"
+version = "0.2.1"
 
 [deps]
 FrankWolfe = "f55ce6ea-fdc5-4628-88c5-0087fe54bd30"
@@ -20,7 +20,7 @@ EntanglementDetectionTullio = "Tullio"
 [compat]
 DoubleFloats = "1.4.0"
 FrankWolfe = "0.6"
-Ket = "0.7"
+Ket = "0.8"
 LinearAlgebra = "1"
 Printf = "1"
 Quadmath = "0.5.13"

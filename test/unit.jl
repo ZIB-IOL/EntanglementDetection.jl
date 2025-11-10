@@ -26,8 +26,8 @@ end
             @test isa(lmo, EntanglementDetection.SeparableLMO{T, N})
             @test isa(lmo, EntanglementDetection.AlternatingSeparableLMO{T, N})
             @test lmo.dims == dims
-            @test lmo.matrix_basis[1][2:end] == Ket.gellmann.(CT, dims)[1][2:end]
-            @test lmo.matrix_basis[2][1] == Ket.gellmann.(CT, dims[2])[1] * sqrt(T(2)) / sqrt(T(dims[2]))
+            @test lmo.matrix_basis[1][2:end] == Ket.gellmann.(CT, dims; coeff = 1)[1][2:end]
+            @test lmo.matrix_basis[2][1] == Ket.gellmann.(CT, dims[2]; coeff = 1)[1]
             ρ = Matrix(Ket.proj(CT, 1, prod(dims)))
             v = FrankWolfe.compute_extreme_point(lmo, EntanglementDetection.correlation_tensor(LA.I / prod(dims) - ρ, dims))
             @test EntanglementDetection.density_matrix(v) ≈ ρ
