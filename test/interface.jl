@@ -6,7 +6,7 @@ import LinearAlgebra as LA
 p = 0.888 # 1 - 1/9
 T = Float64
 dims = [2, 2, 2, 2]
-target_rho = LA.Hermitian((1 - p) * Ket.state_ghz(2, 4) + p * Complex.(Matrix{T}(LA.I, prod(dims), prod(dims)) / prod(dims)))
+target_rho = LA.Hermitian((1 - p) * Ket.state_ghz(Complex{T}, 4) + p * Complex.(Matrix{T}(LA.I, prod(dims), prod(dims)) / prod(dims)))
 
 # Some oracle give us a guess
 

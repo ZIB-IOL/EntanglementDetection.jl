@@ -22,7 +22,7 @@ lmo = EntanglementDetection.AlternatingSeparableLMO(T, dims; nb = 10, threshold 
 Random.seed!(0)
 println("Initializing the state ...")
 v = 0.3
-ρ = Ket.state_ghz(Complex{T}, 2, N; v = v)
+ρ = Ket.state_ghz(Complex{T}, N; v)
 println("Converting ...")
 C = correlation_tensor(ρ, dims)
 

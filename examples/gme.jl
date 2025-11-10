@@ -10,19 +10,17 @@ import MathOptInterface as MOI
 using Serialization
 
 max_iteration = 10^7    # control time
-callback_iter = 10^3    
+callback_iter = 10^3
 max_active = 4 * 10^4   # control the size of memory
 shortcut_scale = 10
 noise_atol = 1e-3
-
 
 output_dir = "EntanglementDetection/examples/results/gme"
 
 T = Float64
 N = 4
 dims = Tuple(fill(2, N))
-ρ = Ket.state_ghz(Complex{T}, 2, N)
-
+ρ = Ket.state_ghz(Complex{T}, N)
 
 k = 2
 C = correlation_tensor(ρ, dims)

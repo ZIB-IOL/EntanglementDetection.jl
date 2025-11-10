@@ -42,7 +42,7 @@ julia> N = 2; # bipartite scenario
 
 julia> p = 0.2; # white noise strength
 
-julia> ρ = Ket.state_ghz(d, N; v = 1 - p) # two-qubit maximally entangled state with white noise
+julia> ρ = Ket.state_ghz(N, d; v = 1 - p) # two-qubit maximally entangled state with white noise
 4×4 Hermitian{ComplexF64, Matrix{ComplexF64}}:
  0.45+0.0im   0.0+0.0im   0.0+0.0im   0.4+0.0im
   0.0-0.0im  0.05+0.0im   0.0+0.0im   0.0+0.0im
@@ -115,7 +115,7 @@ true
 Now consider a noisier version of the same state:
 
 ```julia
-julia> d = 2; N = 2; p = 0.8; ρ = Ket.state_ghz(d, N; v = 1 - p) # with more white noise
+julia> d = 2; N = 2; p = 0.8; ρ = Ket.state_ghz(N, d; v = 1 - p) # with more white noise
 4×4 Hermitian{ComplexF64, Matrix{ComplexF64}}:
  0.3+0.0im  0.0+0.0im  0.0+0.0im  0.1+0.0im
  0.0-0.0im  0.2+0.0im  0.0+0.0im  0.0+0.0im
