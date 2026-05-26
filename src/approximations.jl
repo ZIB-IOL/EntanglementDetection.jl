@@ -1,4 +1,11 @@
 abstract type ApproximationQuantumStates{T} end
+# It is easy to get confused between the approximations of:
+# - the state space, i.e., all mixed states
+# - the complex sphere, i.e., all pure states
+# - the real sphere
+# In this file, η is the shrinking factor wrt the state space, while shr is the shrinking factor wrt the real sphere.
+# For qubits, the Bloch sphere identifies exactly the state space with the 3D sphere, i.e., η = shr.
+# In general, we resort to Alice and Bob meet Banach, Lemma 9.2 to get η = 2shr^2 - 1.
 
 """
     PolytopeReducedComplexSphere{T} <: ApproximationQuantumStates{T}
@@ -14,9 +21,10 @@ end
 export PolytopeReducedComplexSphere
 
 function PolytopeReducedComplexSphere{T}(mat::Matrix, shr) where {T <: Real}
-    @assert isodd(length(size(mat, 2)))
+    @assert isodd(size(mat, 2))
     d = (size(mat, 2) + 1) ÷ 2
-    return PolytopeReducedComplexSphere{T}(2shr^2 - 1, d, 0, mat)
+    η = d == 2 ? shr : 2shr^2 - 1
+    return PolytopeReducedComplexSphere{T}(η, d, 0, mat)
 end
 
 Base.length(A::PolytopeReducedComplexSphere) = size(A.mat, 1)
@@ -55,7 +63,8 @@ function PolytopePhasedComplexSphere{T}(mat::Matrix, shr, n) where {T <: Real}
     ind = ones(Int, d)
     base = [size(mat, 1); fill(n, d - 1)]
     sc = sincos.((T(pi) / n) * (0:n-1))
-    return PolytopePhasedComplexSphere{T}(2shr^2 - 1, d, 0, mat, n, ind, base, sc)
+    η = d == 2 ? shr : 2shr^2 - 1
+    return PolytopePhasedComplexSphere{T}(η, d, 0, mat, n, ind, base, sc)
 end
 
 Base.length(A::PolytopePhasedComplexSphere) = size(A.mat, 1) * A.n^(A.d - 1)
@@ -97,10 +106,11 @@ function CrossPolytopeSubdivision{T}(d::Integer; max_length = 10^6) where {T <: 
 end
 
 function CrossPolytopeSubdivision{T}(d::Integer, n::Integer) where {T <: Real}
-    η = n / sqrt(T(n^2 + (d ≤ 3 ? 1 : 2) * (d - 1)))
+    shr = n / sqrt(T(n^2 + (d ≤ 2 ? 1 : 2) * (2d - 2)))
     vec = fill(1, 2d - 1)
     vec[2d-1] = n + 1
     sgn = fill(Int8(-1), 2d - 2)
+    η = d == 2 ? shr : 2shr^2 - 1
     return CrossPolytopeSubdivision{T}(η, d, 0, n, vec, sgn)
 end
 
