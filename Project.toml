@@ -28,7 +28,7 @@ Random = "1"
 Roots = "3"
 Test = "1"
 Tullio = "0.3.8"
-julia = "1.11"
+julia = "1.9"
 
 [extras]
 DoubleFloats = "497a8b3b-efae-58df-a0af-a86822472b78"
